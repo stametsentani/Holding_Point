@@ -183,6 +183,11 @@ def render_infographic(template_path, data):
     return img
 
 # --- SIDEBAR KONFIGURASI ---
+if os.path.exists("Picture1.png"):
+    col_l, col_c, col_r = st.sidebar.columns([1, 2, 1])
+    with col_c:
+        st.image("logo.png", use_container_width=True)
+
 st.sidebar.header("📍 Parameter Stasiun")
 
 today = datetime.date.today()
