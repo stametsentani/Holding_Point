@@ -355,17 +355,17 @@ if st.session_state.qc_data:
                     key=f"dl_{idx}"
                 )
                 
-                st.write("")
+                # st.write("")
                 
-                target_group_id = "6282199660289-1476434585@g.us"
+                # target_group_id = "6282199660289-1476434585@g.us"
                 
-                if st.button(f"📤 Kirim {d['label'][:7]} ke WA Group", key=f"wa_btn_{idx}", type="primary"):
-                    with st.spinner("Mengirim infografis ke WhatsApp Group..."):
-                        is_sent = send_to_whatsapp_bot(img_bytes, target_group_id, caption="")
-                        if is_sent:
-                            st.success("✅ Infografis berhasil terkirim ke WhatsApp Group!")
-                        else:
-                            st.error("❌ Gagal mengirim. Pastikan server Node.js (`server.js`) tetap menyala di background.")
+                # if st.button(f"📤 Kirim {d['label'][:7]} ke WA Group", key=f"wa_btn_{idx}", type="primary"):
+                #     with st.spinner("Mengirim infografis ke WhatsApp Group..."):
+                #         is_sent = send_to_whatsapp_bot(img_bytes, target_group_id, caption="")
+                #         if is_sent:
+                #             st.success("✅ Infografis berhasil terkirim ke WhatsApp Group!")
+                #         else:
+                #             st.error("❌ Gagal mengirim. Pastikan server Node.js (`server.js`) tetap menyala di background.")
 else:
     st.warning("Silakan pilih tanggal dan klik tombol 'Download Data' pada sidebar di sebelah kiri.")
 
