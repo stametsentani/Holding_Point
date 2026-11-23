@@ -6,6 +6,7 @@ import io
 import os
 import math
 from collections import Counter
+import time
 
 # Setup Halaman Streamlit
 st.set_page_config(page_title="QC & Auto Holding Area Forecast", layout="wide")
@@ -107,16 +108,28 @@ def fetch_open_meteo(lat, lon, date_str):
         "start_date": date_str,
         "end_date": date_str
     }
-    try:
-        res = requests.get(url, params=params, timeout=10)
-        if res.status_code != 200:
-            err_msg = res.json().get("reason", res.text)
-            st.error(f"Gagal mengambil data ({res.status_code}): {err_msg}")
+max_retries = 3
+    for attempt in range(max_retries):
+        try:
+            # Tingkatkan timeout dari 10 menjadi 25 atau 30 detik
+            res = requests.get(url, params=params, timeout=25) 
+            
+            if res.status_code != 200:
+                err_msg = res.json().get("reason", res.text)
+                st.error(f"Gagal mengambil data ({res.status_code}): {err_msg}")
+                return None
+            return res.json()
+            
+        except requests.exceptions.Timeout:
+            if attempt < max_retries - 1:
+                time.sleep(2) # Jeda 2 detik sebelum mencoba lagi
+                continue
+            else:
+                st.error("Gagal menghubungi server Open-Meteo: Waktu tunggu habis (Timeout) setelah 3 percobaan.")
+                return None
+        except requests.exceptions.RequestException as e:
+            st.error(f"Gagal menghubungi server Open-Meteo: {e}")
             return None
-        return res.json()
-    except requests.exceptions.RequestException as e:
-        st.error(f"Gagal menghubungi server Open-Meteo: {e}")
-        return None
 
 def render_infographic(template_path, data):
     if not os.path.exists(template_path):
