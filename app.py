@@ -108,7 +108,7 @@ def fetch_open_meteo(lat, lon, date_str):
         "start_date": date_str,
         "end_date": date_str
     }
-max_retries = 3
+    max_retries = 3
     for attempt in range(max_retries):
         try:
             # Tingkatkan timeout dari 10 menjadi 25 atau 30 detik
